@@ -8,13 +8,15 @@ from datetime import datetime
 
 BROKER_LST = 'kafka01:9092,kafka02:9092,kafka03:9092'
 
-
 class BicycleProducer():
 
     def __init__(self, topic):
         self.topic = topic
         self.conf = {'bootstrap.servers': BROKER_LST,
-                     'compression.type': 'lz4'}
+                     'compression.type': 'lz4',
+                     'enable.idempotence': 'true',
+                     'max.in.flight.requests.per.connection': '5',
+                     'acks': 'all',}
         self.producer = Producer(self.conf)
         self._set_logger()
 
